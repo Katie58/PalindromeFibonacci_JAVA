@@ -24,7 +24,7 @@ public class PalindromeUtil {
 			boolean valid = false;			
 			while(!valid) {
 				print = "Please enter one word: ";
-				System.out.print(padding(center - (print.length() / 2), ' ') + print);
+				System.out.print(padding(center - (print.length() / 2), ' ') + print + "\n");
 				input = scnr.nextLine().trim();
 				for (char letter : input.toCharArray()) {
 					if (!validateCharAlpha(letter)) {
@@ -64,8 +64,11 @@ public class PalindromeUtil {
 				print = "Please enter a number: ";
 				System.out.print(padding(center - (print.length() / 2), ' ') + print);
 				input = scnr.nextLine().trim();
+				System.out.println();
 				if (!validateInt(input)) {
 					valid = false;
+					print = "NOT A VALID INTEGER!";
+					System.err.print(padding(center - (print.length() / 2), ' ') + print + "\n");
 					continue;
 				}
 				valid = true;
@@ -103,11 +106,12 @@ public class PalindromeUtil {
 				print = "Please enter a number: ";
 				System.out.print(padding(center - (print.length() / 2), ' ') + print);
 				input = scnr.nextLine().trim();
-				for (char letter : input.toCharArray()) {
-					if (!validateCharAlpha(letter)) {
-						valid = false;
-						break;
-					}
+				System.out.println();
+				if (!validateInt(input)) {
+					valid = false;
+					print = "NOT A VALID INTEGER!";
+					System.err.print(padding(center - (print.length() / 2), ' ') + print + "\n");
+					break;
 				}
 				valid = true;
 			}
@@ -127,8 +131,7 @@ public class PalindromeUtil {
 			for (int x : fibonacci) {
 				print += ", " + Integer.toString(x);
 			}
-			System.out.print(padding(center - (print.length() / 2), ' ') + print);
-			System.out.println();	
+			System.out.print(padding(center - (print.length() / 2), ' ') + print + "\n");	
 			retry = retry("Enter another number?");
 		}
 
@@ -153,10 +156,24 @@ public class PalindromeUtil {
 		if (input.isEmpty()) {
 			return false;
 		}
-		if (input.matches("[-0-9]*")) {
-			return true;
-		} else {
+		if (!input.matches("[-0-9]*")) {
 			return false;
+		}
+		String maxInt = String.valueOf(Integer.MAX_VALUE);
+		if (input.length() < maxInt.length()) {
+			return true;
+		} else if (input.length() > maxInt.length()) {
+			return false;
+		} else {
+			for (int i = 0; i < input.length(); i++) {
+				if (input.charAt(i) < maxInt.charAt(i)) {
+					return true;
+				} 
+				if (input.charAt(i) > maxInt.charAt(i)) {
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 	
