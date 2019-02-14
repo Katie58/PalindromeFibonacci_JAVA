@@ -115,22 +115,22 @@ public class PalindromeUtil {
 				}
 				valid = true;
 			}
-			int num = Integer.parseInt(input);
+			int n = Integer.parseInt(input);
 			int first = 0;
 			int second = 1;
 			int current = 1;
 			ArrayList<Integer> fibonacci = new ArrayList<Integer>();
 			fibonacci.add(current);
-			for (int i = 1; i < num; i++) {
+			for (int i = 1; i < n; i++) {
 				current = first + second;
 				if (current < 0) {
 					print = "ERROR - something went wrong!";
 					System.err.println(padding(center - (print.length() / 2), ' ') + print + "\n");
-					print = "F of 45 = 1836311903 which is the largest number this calculator can handle...";
+					print = "(F of 46 = 1836311903) which is the largest number this calculator can handle...";
 					System.err.println(padding(center - (print.length() / 2), ' ') + print + "\n");
-					i = num;
+					i = n;
 				}
-				if (i != num) {
+				if (i != n) {
 					first = second;
 					second = current;
 					fibonacci.add(current);					
