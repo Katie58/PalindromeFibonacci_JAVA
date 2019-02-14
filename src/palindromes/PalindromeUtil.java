@@ -121,15 +121,31 @@ public class PalindromeUtil {
 			int current = 1;
 			ArrayList<Integer> fibonacci = new ArrayList<Integer>();
 			fibonacci.add(current);
-			while (current <= num) {				
-				current = first + second;				
-				first = second;
-				second = current;	
-				fibonacci.add(current);
+			for (int i = 1; i < num; i++) {
+				current = first + second;
+				if (current < 0) {
+					print = "ERROR - something went wrong!";
+					System.err.println(padding(center - (print.length() / 2), ' ') + print + "\n");
+					print = "F of 45 = 1836311903 which is the largest number this calculator can handle...";
+					System.err.println(padding(center - (print.length() / 2), ' ') + print + "\n");
+					i = num;
+				}
+				if (i != num) {
+					first = second;
+					second = current;
+					fibonacci.add(current);					
+				}
 			}
 			print = "0";
 			for (int x : fibonacci) {
 				print += ", " + Integer.toString(x);
+			}
+			while (print.length() > 120) {
+				String printLine = print.substring(0, 120);
+				int index = printLine.lastIndexOf(",");
+				printLine = print.substring(0, index);
+				System.out.println(padding(center - (printLine.length() / 2), ' ') + printLine);
+				print = print.substring(index + 2);
 			}
 			System.out.print(padding(center - (print.length() / 2), ' ') + print + "\n");	
 			retry = retry("Enter another number?");
