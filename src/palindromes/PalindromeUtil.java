@@ -7,6 +7,7 @@ public class PalindromeUtil {
 	static Scanner scnr = new Scanner(System.in);
 	static int center = 60;
 	static String print = "";
+	static String userInput = "";
 	
 	public static void header() {
 		for(int i = 0; i < 7; i++) {
@@ -18,15 +19,14 @@ public class PalindromeUtil {
 	
 	public static void stringPalindrome() {
 		boolean retry = true;
-
-		String input = "";
 		while(retry) {
 			boolean valid = false;			
 			while(!valid) {
-				print = "Please enter one word: ";
-				System.out.print(padding(center - (print.length() / 2), ' ') + print + "\n");
-				input = scnr.nextLine().trim();
-				for (char letter : input.toCharArray()) {
+				print = "Enter a word or phrase: ";
+				System.out.print(padding(center - (print.length() / 2), ' ') + print);
+				userInput = scnr.nextLine().trim();
+				System.out.println();
+				for (char letter : userInput.toCharArray()) {
 					if (!validateCharAlpha(letter)) {
 						valid = false;
 						break;
@@ -34,12 +34,16 @@ public class PalindromeUtil {
 				}
 				valid = true;
 			}
-			for (int i = 0; i < input.length(); i++) {
-				if (!validateCharAlpha(input.charAt(i))) {
-					input = input.substring(0, i) + input.substring(i + 1, input.length());
+			String output = userInput;
+			for (int i = 0; i < output.length(); i++) {
+				if (!validateCharAlpha(output.charAt(i))) {
+					output = output.substring(0, i) + output.substring(i + 1, output.length());
+					i--;
 				}
 			}
-			results(input);		
+			results(output);	
+			userInput = "";
+			output = "";
 			retry = retry("Enter another word?");
 		}
 
@@ -47,25 +51,30 @@ public class PalindromeUtil {
 	
 	public static void results(String input) {
 		if (reverse(input)) {
-			print = reverse(input) + "! " + input + " & " + reverseOrder(input) + " is a panindrome!";
+			print = "TRUE! " + userInput + " & " + reverseOrder(userInput) + " is a panindrome!";
 			System.out.println(padding(center - (print.length() / 2), ' ') + print);
 		} else {
-			print = reverse(input) + "! " + input + " & " + reverseOrder(input) + " is not a panindrome!";
+			print = "FALSE! " + userInput + " & " + reverseOrder(userInput) + " is not a panindrome!";
 			System.out.println(padding(center - (print.length() / 2), ' ') + print);
 		}
 	}
 	
 	public static void intPalindrome() {
 		boolean retry = true;
-		String input = "";
 		while(retry) {
 			boolean valid = false;			
 			while(!valid) {
 				print = "Please enter a number: ";
 				System.out.print(padding(center - (print.length() / 2), ' ') + print);
-				input = scnr.nextLine().trim();
+				userInput = scnr.nextLine().trim();
 				System.out.println();
-				if (!validateInt(input)) {
+				for (int i = 0; i < userInput.length(); i++) {
+					if (!validateInt(Character.toString(userInput.charAt(i)))) {
+						userInput = userInput.substring(0, i) + userInput.substring(i + 1, userInput.length());
+						i--;
+					}
+				}
+				if (!validateInt(userInput)) {
 					valid = false;
 					print = "NOT A VALID INTEGER!";
 					System.err.print(padding(center - (print.length() / 2), ' ') + print + "\n");
@@ -73,7 +82,7 @@ public class PalindromeUtil {
 				}
 				valid = true;
 			}
-			results(input);		
+			results(userInput);		
 			retry = retry("Enter another number?");
 		}
 
@@ -211,7 +220,7 @@ public class PalindromeUtil {
 				print = "Perhaps check your numlock, try again... ";
 				System.err.print(padding(center - (print.length() / 2), ' ') + print);
 				continue;					
-			} else if (in.matches("[0-9]")) {
+			} else if (in.matches("[0-9]*")) {
 				input = Integer.parseInt(in);
 				if (input >= 1 && input <= menuCount) {
 					return input;
